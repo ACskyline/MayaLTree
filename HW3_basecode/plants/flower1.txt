@@ -1,0 +1,6 @@
+I
+I->[+FS][-FS][&FS][^FS]
+S->[+F*][-F*][&F*][^F*]
+F->FA
+A->F[+FS][-FS][&FS][^FS]B
+B->FF

@@ -1,0 +1,60 @@
+global proc ran() {
+    polyCube;
+    instancer;
+    createNode randomNode;
+    connectAttr -f pCube1.matrix instancer1.inputHierarchy[0];
+    connectAttr -f randomNode1.outPoints instancer1.inputPoints;
+}
+
+global proc ranEX() {
+    string $sel[] = `ls -sl`;
+    if (size($sel) == 1)
+    {
+        instancer;
+        createNode randomNode;
+        connectAttr -f ($sel[0] + ".matrix") instancer1.inputHierarchy[0];
+        connectAttr -f randomNode1.outPoints instancer1.inputPoints;
+    }
+    else
+    {
+        print(size($sel));
+    }
+}
+
+global proc ins() {
+    polyCube;
+    polySphere;
+    instancer;
+    instancer;
+    createNode LSystemInstanceNode;
+    connectAttr -f time1.outTime LSystemInstanceNode1.time;
+    connectAttr -f pCube1.matrix instancer1.inputHierarchy[0];
+    connectAttr -f pSphere1.matrix instancer2.inputHierarchy[0];
+    connectAttr -f LSystemInstanceNode1.branches instancer1.inputPoints;
+    connectAttr -f LSystemInstanceNode1.flowers instancer2.inputPoints;
+}
+
+global proc insEX() {
+    string $sel[] = `ls -sl`;
+    if (size($sel) == 2)
+    {
+        instancer;
+        instancer;
+        createNode LSystemInstanceNode;
+        connectAttr -f time1.outTime LSystemInstanceNode1.time;
+        connectAttr -f ($sel[0] + ".matrix") instancer1.inputHierarchy[0];
+        connectAttr -f ($sel[1] + ".matrix") instancer2.inputHierarchy[0];
+        connectAttr -f LSystemInstanceNode1.branches instancer1.inputPoints;
+        connectAttr -f LSystemInstanceNode1.flowers instancer2.inputPoints;
+    }
+    else
+    {
+        print("ehhhhhhh");
+    }
+}
+
+menu -parent MayaWindow -label "LSystemInstance";
+menuItem -label "randomNode" -command ran;
+menuItem -label "randomNode EX" -command ranEX;
+menuItem -label "LSystemInstanceNode" -command ins;
+menuItem -label "LSystemInstanceNode EX" -command insEX;
